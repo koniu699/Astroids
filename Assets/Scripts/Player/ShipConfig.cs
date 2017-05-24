@@ -11,6 +11,8 @@ public class ShipConfig : ScriptableObject
     float shipRotationSpeed;
     [SerializeField]
     float shipMaxLinearVelocity;
+    [SerializeField]
+    int shipLife;
 
     public float ShipSpeed
     {
@@ -32,6 +34,13 @@ public class ShipConfig : ScriptableObject
         get
         {
             return shipMaxLinearVelocity * shipMaxLinearVelocity;
+        }
+    }
+    public int ShipLife
+    {
+        get
+        {
+            return shipLife;
         }
     }
 }
