@@ -12,7 +12,7 @@ public class LaserBeamController : MonoBehaviour
     string enemyTag;
     [SerializeField]
     Rigidbody2D laserBody;
-
+    [SerializeField]
     ObjectPool parentObjectPool;
     Camera mainCam;
     Transform laserTransform;
@@ -30,8 +30,8 @@ public class LaserBeamController : MonoBehaviour
     }
 
     private void Start()
-    {
-        parentObjectPool = laserTransform.GetComponentInParent<ObjectPool>();
+	{
+        parentObjectPool = GetComponentsInParent<ObjectPool>()[0];
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

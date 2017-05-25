@@ -39,7 +39,10 @@ public class ShipLifeController : MonoBehaviour
             currentLife--;
 
             if (!IsAlive() && onDeathAction != null)
+            {
                 onDeathAction();
+                gameObject.SetActive(false);
+            }
         }
     }
 

@@ -10,27 +10,53 @@ public class MeteorSpawner : MonoBehaviour
     int maxMeteorCount;
     [SerializeField]
     Transform[] spawnLocations;
+    [SerializeField]
+    float meteorSpawnDelay;
+
+    public int MeteorCount
+    {
+        get
+        {
+            return maxMeteorCount;
+        }
+        set
+        {
+            maxMeteorCount = value;
+            if (maxMeteorCount <= 0)
+                maxMeteorCount = 1;
+        }
+    }
+
+    private void Awake()
+    {
+        GlobalGameController.Instance.RegisterMeteorSpawner(this);
+    }
 
     private void Start()
     {
-        StartCoroutine(SpawnMeteors(maxMeteorCount));
+        SpawnMeteors();
     }
 
     Transform GetRandomSpawn(Transform[] spawns)
     {
-        return spawns[Random.Range(0, spawns.Length -1)];
+        return spawns[Random.Range(0, spawns.Length - 1)];
 
     }
 
     IEnumerator SpawnMeteors(int maxCount)
     {
-		for (int i = 0; i < maxCount; i++)
-		{
-			var spawn = GetRandomSpawn(spawnLocations);
-			var meteor = bigMeteorPool.GetObjectFromPool();
-			meteor.SetActive(true);
-			meteor.transform.position = spawn.position;
-            yield return new WaitForSeconds(.5f);
-		}
+        for (int i = 0; i < maxCount; i++)
+        {
+            var spawn = GetRandomSpawn(spawnLocations);
+            var meteor = bigMeteorPool.GetObjectFromPool();
+            meteor.SetActive(true);
+            meteor.transform.position = spawn.position;
+            yield return new WaitForSeconds(meteorSpawnDelay);
+        }
+    }
+
+    public void SpawnMeteors()
+    {
+        StartCoroutine(SpawnMeteors(maxMeteorCount));
     }
 }

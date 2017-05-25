@@ -12,14 +12,16 @@ public class MeteorController : MonoBehaviour
     int maxLife;
     [SerializeField]
     Rigidbody2D meteorRigidbody;
-
-	ObjectPool meteorPool;
+    [SerializeField]
+    ObjectPool meteorPool;
 
     int currentLife;
 
     private void Start()
     {
+        meteorPool = GetComponentsInParent<ObjectPool>()[0];
         currentLife = maxLife;
+        GlobalGameController.Instance.RegisterMeteorInPlay(this);
         SetupRandomMovement();
     }
 
@@ -32,9 +34,10 @@ public class MeteorController : MonoBehaviour
     public void DealDamage(int damage)
     {
         currentLife -= damage;
-        if (currentLife <0)
+        if (currentLife <= 0)
         {
             meteorPool.ReturnObjectToPool(gameObject);
+            GlobalGameController.Instance.RemoveMeteorFromPlay(this);
         }
     }
 }
